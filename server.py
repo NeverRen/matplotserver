@@ -5,7 +5,7 @@ import StringIO
 import pandas as pd
 
 
-def plot(labels,data,title='defaultname'):
+def radarplot(labels, data, title='defaultname'):
     dataLenth = len(labels)
     angles = np.linspace(0, 2 * np.pi, dataLenth, endpoint=False)
     data = np.concatenate((data, [data[0]]))
@@ -18,14 +18,14 @@ def plot(labels,data,title='defaultname'):
     ax.set_title(title, va='bottom', fontproperties="Ubuntu Mono")
     ax.set_rlim(0, max(data))
     ax.grid(True)
-    io=StringIO.StringIO()
+    io = StringIO.StringIO()
     plt.savefig(io, format="png")
     plt.close('all')
     return '<img src="data:image/png;base64,%s"/>' % io.getvalue().encode("base64").strip()
 
 
 def boxplot(nums, quantity, title):
-    nums=partition(nums,quantity)
+    nums = partition(nums, quantity)
     print nums
     df = pd.DataFrame(nums,
                       columns=title)
@@ -44,12 +44,13 @@ def partition(lst, partition_size):
         for i in range(0, len(lst), partition_size)
     ]
 
+
 app = Flask(__name__)
 
 
 @app.route('/radar', methods=['POST'])
 def radar():
-    data=[]
+    data = []
     tmpdata = request.form.getlist('data')
     print tmpdata
     for num in tmpdata:
@@ -58,12 +59,12 @@ def radar():
     labels = request.form.getlist('labels')
     title = request.form['title']
     title = str(title)
-    return plot(labels, data, title)
+    return radarplot(labels, data, title)
 
 
 @app.route('/box', methods=['POST'])
 def box():
-    nums=[]
+    nums = []
     tmpnums = request.form.getlist('nums')
     print tmpnums
     for num in tmpnums:

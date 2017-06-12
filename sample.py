@@ -3,6 +3,7 @@ import requests, random
 
 a = list()
 label = list()
+id = 0
 
 for i in range(26):
     a.append(random.uniform(150, 200))
@@ -14,6 +15,7 @@ fil = open(str(id) + '.html', 'wb')
 fil.write(r.text)
 fil.close()
 print r.text
+id += 1
 
 data_info_box = {'nums': ['123', '131', '175', '115', '173', '103'], 'quantity': '3',
                  'title': ['first', 'second', 'third']}
@@ -21,4 +23,3 @@ j = requests.post("http://127.0.0.1:5000/box", data=data_info_box)
 fil = open(str(id) + '.html', 'wb')
 fil.write(j.text)
 fil.close()
-
